@@ -4,10 +4,10 @@ from collections import defaultdict
 def get_unique_ips():
     # Run tcpdump and collect IP addresses
     tcpdump_command = ['sudo', 'tcpdump', '-n', '-c', '1000']
-    tcpdump_output = subprocess.run(tcpdump_command, capture_output=True, text=True)
+    tcpdump_output = subprocess.Popen(tcpdump_command, stdout=subprocess.PIPE, text=True).communicate()[0]
 
     ip_addresses = set()
-    lines = tcpdump_output.stdout.split('\n')
+    lines = tcpdump_output.split('\n')
     
     for line in lines:
         if 'IP' in line:
@@ -21,8 +21,8 @@ def get_countries(ip_addresses):
     countries = defaultdict(str)
     for ip in ip_addresses:
         command = ['geoiplookup', ip]
-        result = subprocess.run(command, capture_output=True, text=True, shell=False)
-        country = result.stdout.split()[-1]
+        result = subprocess.Popen(command, stdout=subprocess.PIPE, text=True).communicate()[0]
+        country = result.split()[-1]
         countries[ip] = country
 
     return countries
@@ -32,4 +32,4 @@ if __name__ == "__main__":
     ip_countries = get_countries(unique_ips)
     
     for ip, country in ip_countries.items():
-        print(f"IP: {ip} | Country: {country}")
+        print("IP: %s | Country: %s" % (ip, country))
