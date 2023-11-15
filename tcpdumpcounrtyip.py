@@ -3,7 +3,7 @@ import requests
 
 def get_unique_ips():
     # Run tcpdump to capture packets and extract unique IP addresses
-    tcpdump_cmd = "sudo tcpdump -veni PortB -c 1000 -l 'not (host 54.228.158.66)' | awk '/IP/{print $3}' | sort -u"
+    tcpdump_cmd = "sudo tcpdump -veni PortB -s0 -Q in -c 1000 'not (host 54.228.158.66)' | awk '/IP/{print $3}' | sort -u"
     process = subprocess.Popen(tcpdump_cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     output, error = process.communicate()
     if error:
