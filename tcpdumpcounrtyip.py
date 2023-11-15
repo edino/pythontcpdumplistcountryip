@@ -3,7 +3,7 @@ from collections import defaultdict
 
 def get_unique_ips():
     # Run tcpdump and collect IP addresses
-    tcpdump_command = ['sudo', 'tcpdump', '-n', '-c', '10']
+    tcpdump_command = ['sudo', 'tcpdump', '-veni', '-Q', 'in' , '-c', '10', '-s0']
     tcpdump_output = subprocess.run(tcpdump_command, capture_output=True, text=True)
     
     ip_addresses = set()
