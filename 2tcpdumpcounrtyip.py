@@ -3,7 +3,7 @@ import re
 
 def get_unique_ips():
     #tcpdump_cmd = "sudo tcpdump -veni -s0 -Q in -c 10 'not (host 54.228.158.66)' | awk '/IP/{print $3}' | sort -u"
-    tcpdump_cmd = ['sudo', 'tcpdump', '-veni', '-Q', 'in', '-c', '10', '-s0', 'not', '(host 54.228.158.66)', '|', 'awk', '/IP/{print $3}', '|', 'sort', '-u']
+    tcpdump_cmd = ['tcpdump', '-veni', '-Q', 'in', '-c', '10', '-s0', 'not', '(host 54.228.158.66)', '|', 'awk', '/IP/{print $3}', '|', 'sort', '-u']
     process = subprocess.Popen(tcpdump_cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     output, error = process.communicate()
     if error:
